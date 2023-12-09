@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
+    "tsc": "./node_modules/typescript/bin/tsc",
+    "lint": "npx prettier . -w"
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
