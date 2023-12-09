@@ -1,15 +1,16 @@
 interface Props {
-  label: string;
-  onClick: (label: string) => void;
+  children: string;
+  color?: "primary" | "secondary" | "danger";
+  onClick: () => void;
 }
 
-function Button({ label, onClick }: Props) {
+function Button({ children, color = "primary", onClick }: Props) {
   return (
     <button
-      className="btn btn-primary"
-      onClick={(e) => onClick(label)}
+      className={"btn btn-" + color}
+      onClick={onClick}
     >
-      {label}
+      {children}
     </button>
   );
 }
