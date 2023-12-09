@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface Props {
   items: string[];
-  header: string;
+  heading: string;
   onSelectItem: (item: string) => void;
 }
 
