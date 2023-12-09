@@ -1,12 +1,15 @@
-import Alert from "./components/Alert";
+import Button from "./components/Button";
+
+const handleButtonClick = (label: string) => {
+  console.log(label);
+};
 
 function App() {
   return (
-    <div className="alert alert-primary">
-      <Alert>
-        Hello, <span>World</span>!
-      </Alert>
-    </div>
+    <Button
+      label={"Click me!"}
+      onClick={handleButtonClick}
+    />
   );
 }
 
