@@ -10,5 +10,17 @@
   "arrowParens": "always",
   "proseWrap": "preserve",
   "endOfLine": "lf",
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "",
+    "<TYPES>",
+    "",
+    "<TYPES>^[.]",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^[.]"
+  ]
 }
