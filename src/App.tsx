@@ -1,17 +1,14 @@
 import { useState } from "react";
 
+import Message from "./components/Message";
+
 function App() {
-  // Avoid nested structures
-  const [person, setPerson] = useState({
-    firstName: "",
-    lastName: "",
-  });
-
-  const [isLoading, setLoading] = useState(false);
-
   return (
+    // Each component will render twice while in development and in StrictMode
     <div>
-      {person.firstName} {person.lastName}
+      <Message />
+      <Message />
+      <Message />
     </div>
   );
 }
