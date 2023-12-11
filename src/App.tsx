@@ -1,14 +1,19 @@
 import { useState } from "react";
 
-import Message from "./components/Message";
-
 function App() {
+  const [drink, setDrink] = useState({
+    title: "Americano",
+    price: 5,
+  });
+
+  function handleClick() {
+    setDrink({ ...drink, price: 6 });
+  }
+
   return (
-    // Each component will render twice while in development and in StrictMode
     <div>
-      <Message />
-      <Message />
-      <Message />
+      {drink.price}
+      <button onClick={handleClick}>Click Me</button>
     </div>
   );
 }
