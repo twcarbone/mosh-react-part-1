@@ -6,10 +6,7 @@ interface Props {
 
 function Button({ children, color = "primary", onClick }: Props) {
   return (
-    <button
-      className={"btn btn-" + color}
-      onClick={onClick}
-    >
+    <button className={"btn btn-" + color} onClick={onClick}>
       {children}
     </button>
   );
