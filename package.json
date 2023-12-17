@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
     "tsc": "./node_modules/typescript/bin/tsc",
-    "lint": "npx prettier . -w"
+    "format": "npx prettier . -w"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
