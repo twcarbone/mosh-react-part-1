@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-import apiClient, { CanceledError } from "./services/api-client";
-
-interface User {
-  id: number;
-  name: string;
-}
+import { CanceledError } from "./services/api-client";
+import userService, { User } from "./services/user-service";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -13,11 +9,9 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
-
     setLoading(true);
-    apiClient
-      .get<User[]>("/users", { signal: controller.signal })
+    const { request, cancel } = userService.getAllUsers();
+    request
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
@@ -27,28 +21,17 @@ function App() {
         setError(error.message);
         setLoading(false);
       });
-    // .finally(() => {setLoading(false)})  // Does not work with StrictMode enabled
 
-    return () => controller.abort();
+    return () => cancel();
   }, []);
-
-  function deleteUser(user: User) {
-    const originaUsers = [...users];
-    setUsers(users.filter((u) => u.id !== user.id));
-
-    apiClient.delete("/users/" + user.id).catch((error) => {
-      setError(error.message);
-      setUsers(originaUsers);
-    });
-  }
 
   function addUser() {
     const originaUsers = [...users];
     const newUser = { id: 0, name: "Tyler" };
     setUsers([newUser, ...users]);
 
-    apiClient
-      .post("/users", newUser)
+    userService
+      .createUser(newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
       .catch((error) => {
         setError(error.message);
@@ -60,8 +43,17 @@ function App() {
     const originaUsers = [...users];
     const updatedUser = { ...user, name: user.name + "!" };
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+    userService.updateUser(updatedUser).catch((error) => {
+      setError(error.message);
+      setUsers(originaUsers);
+    });
+  }
 
-    apiClient.patch("/users/" + user.id, updatedUser).catch((error) => {
+  function deleteUser(user: User) {
+    const originaUsers = [...users];
+    setUsers(users.filter((u) => u.id !== user.id));
+
+    userService.deleteUser(user.id).catch((error) => {
       setError(error.message);
       setUsers(originaUsers);
     });
