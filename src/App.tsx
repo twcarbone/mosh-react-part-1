@@ -34,7 +34,6 @@ function App() {
   }, []);
 
   function deleteUser(user: User) {
-    // Pessimistic - delete from the UI, then update the server
     const originaUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
 
@@ -47,7 +46,6 @@ function App() {
   }
 
   function addUser() {
-    // Optimistic update - update UI first, then update server
     const originaUsers = [...users];
     const newUser = { id: 0, name: "Tyler" };
     setUsers([newUser, ...users]);
@@ -55,6 +53,22 @@ function App() {
     axios
       .post("https://jsonplaceholder.typicode.com/users", newUser)
       .then(({ data: savedUser }) => setUsers([savedUser, ...users]))
+      .catch((error) => {
+        setError(error.message);
+        setUsers(originaUsers);
+      });
+  }
+
+  function updateUser(user: User) {
+    const originaUsers = [...users];
+    const updatedUser = { ...user, name: user.name + "!" };
+    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+
+    axios
+      .patch(
+        "https://jsonplaceholder.typicode.com/users/" + user.id,
+        updatedUser,
+      )
       .catch((error) => {
         setError(error.message);
         setUsers(originaUsers);
@@ -75,12 +89,20 @@ function App() {
             className="list-group-item d-flex justify-content-between"
           >
             {user.name}
-            <button
-              className="btn btn-outline-danger"
-              onClick={() => deleteUser(user)}
-            >
-              Delete
-            </button>
+            <div>
+              <button
+                className="btn btn-outline-secondary mx-1"
+                onClick={() => updateUser(user)}
+              >
+                Update
+              </button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => deleteUser(user)}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
